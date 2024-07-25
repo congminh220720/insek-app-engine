@@ -27,6 +27,7 @@
   "_moduleAliases": {
     "@utils": "./utils",
     "@database": "./database",
-    "@security": "./security"
+    "@security": "./security",
+    "@app": "app.js"
   }
 }

@@ -1,8 +1,5 @@
 const moment = require('moment')
-const db = require('@database/connectdb')
-
-// declare collection
-const userRef = db.collection('user')
+const { userRef } = require('@database/collections')
 
 exports.createUser = async (req, res) => {
     try {
@@ -10,6 +7,7 @@ exports.createUser = async (req, res) => {
             name: 'Minh',
             age: 10
         })
+        res.status(201).send('Success')
     } catch (e) {
         console.log(e)
     }

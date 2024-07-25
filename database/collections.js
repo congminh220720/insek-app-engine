@@ -7,10 +7,12 @@ try {
     // additional telegram message later ! 
     console.log('connect fail') 
 }
+
 const db = admin.firestore()
 
 // declare collection
 const COLLECTION_PREFIX = process.env.COLLECTION_PREFIX
+
 const userRef = db.collection(COLLECTION_PREFIX+'Users')
 const tasksRef = db.collection(COLLECTION_PREFIX+'Tasks')
 

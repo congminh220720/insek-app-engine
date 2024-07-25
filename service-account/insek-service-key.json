@@ -9,14 +9,5 @@
   "token_uri": "https://oauth2.googleapis.com/token",
   "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
   "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-j721v%40insek-403fb.iam.gserviceaccount.com",
-  "universe_domain": "googleapis.com",
-  "emulators": {
-    "firestore": {
-      "host": "localhost",
-      "port": 8080
-    },
-    "ui": {
-      "enabled": true
-    }
-  }
+  "universe_domain": "googleapis.com"
 }
