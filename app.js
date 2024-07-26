@@ -1,5 +1,4 @@
 require('module-alias/register');
-require("./instrument.js");
 
 const express = require('express')
 const helmet = require('helmet')
@@ -34,8 +33,6 @@ for ( endpoint in endpointMap ) {
     app.put(`/${endpoint}`,methods[method])
     app.patch(`/${endpoint}`,methods[method])
 }
-
-Sentry.setupExpressErrorHandler(app);
 
 module.exports = app
 
