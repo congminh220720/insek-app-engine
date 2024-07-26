@@ -4,6 +4,6 @@ LIMIT_REQUEST_TIME=900000 \
 LIMIT_REQUEST_COUNT=200 \
 DEV_TELEGRAM_CHAT_ID=7227335181\
 DEV_TELEGRAM_TOKEN=7394574602:AAFi9vcq5HCAuUuBOqz3Jly53VQJ7DhIo3s \
-FIRESTORE_CRED_PATH=../service-account/insek-service-key.json \
+FIRESTORE_CRED_PATH=../service-accounts/insek-service-key.json \
 COLLECTION_PREFIX="" \
 node server.js
