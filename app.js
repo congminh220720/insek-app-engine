@@ -1,4 +1,6 @@
 require('module-alias/register');
+require("./instrument.js");
+
 const express = require('express')
 const helmet = require('helmet')
 const morgan = require('morgan')
@@ -21,6 +23,7 @@ app.use(verifyAndAuthorize)
 app.use(applyRateLimiting)
 app.use(checkIp)
 
+
 for ( endpoint in endpointMap ) {
     let method = endpointMap[endpoint]
     let methods = require(`./functions/${endpoint}.js`)
@@ -31,6 +34,8 @@ for ( endpoint in endpointMap ) {
     app.put(`/${endpoint}`,methods[method])
     app.patch(`/${endpoint}`,methods[method])
 }
+
+Sentry.setupExpressErrorHandler(app);
 
 module.exports = app
 
