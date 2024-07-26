@@ -107,8 +107,7 @@ package-lock.json
 
 jwt-cert/jwt-prod.crt
 jwt-cert/jwt-prod.key
-service-accounts/app-engine-prod.json
-service-accounts/firestore-editor-prod.json
+service-accounts/insek-service-key.json
 
 pytest/__pycache__
 
