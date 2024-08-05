@@ -22,7 +22,7 @@ app.use(verifyAndAuthorize)
 app.use(applyRateLimiting)
 app.use(checkIp)
 
-
+// declare endpoint
 for ( endpoint in endpointMap ) {
     let method = endpointMap[endpoint]
     let methods = require(`./functions/${endpoint}.js`)

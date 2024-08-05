@@ -4,13 +4,13 @@
 	npm i
 
 ## Running locally
-	> ./start-stg.sh
+	> ./start.sh
 
-## Bypass CORS when running in local
-	Uncomment app.js line 22
-	Uncomment app.js line 23
-
-## Testing with http client tools
-	Uncomment app.js line 98
 ## Authorization for shell    
-chmod +x start-stg.sh
+chmod +x start-stg.sh or ... shell 
+
+## Create token tip !
+openssl ecparam -genkey -name prime256v1 -noout -out private.key
+
+## create public key from private key 
+openssl ec -in ./jwt-cret/jwt.private.key -pubout -out public.key

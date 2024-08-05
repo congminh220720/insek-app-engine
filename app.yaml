@@ -1,0 +1,17 @@
+# https://cloud.google.com/appengine/docs/standard/python/config/appref
+runtime: nodejs18
+service: default
+env_variables:
+  FIRESTORE_CRED_PATH: "../service-accounts/insek-service.json"
+  LIMIT_REQUEST_TIME: 900000
+  LIMIT_REQUEST_COUNT: 200
+  DEV_TELEGRAM_CHAT_ID: 7227335181
+  DEV_TELEGRAM_TOKEN: 7394574602:AAFi9vcq5HCAuUuBOqz3Jly53VQJ7DhIo3s
+  JWT_PRIVATE_KEY_PATH: './jwt-cret/jwt.private.key'
+  JWT_TOKEN_PERIOD: 604800
+  JWT_PUBLIC_KEY_PATH: './jwt-cret/jwt.public.key'
+  LOCKED_TIME_COEFFICIENT: 5
+  ALLOW_LOGIN_RETRIES: 4
+basic_scaling:
+  max_instances: 2
+  idle_timeout: 5m

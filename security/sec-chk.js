@@ -45,3 +45,31 @@ module.exports.isLockedIp = (ip, callback) => {
 module.exports.lockIp = (ip) => {
     appendIpToFile(ip);
 }
+
+module.exports.checkPreAuth = (req) => {
+    let error = 'No preauth';
+    let preauth = req.headers['keep-aiive'];
+    if (preauth) {
+      let timeAndCode = preauth.split(',');
+      if (timeAndCode[0] && timeAndCode[1]) {
+        let time = parseInt(timeAndCode[0].trim());
+        let code = parseInt(timeAndCode[1].trim());
+        if (time % 199998 == code) {
+          if (moment().unix() - time < 24*3600) {
+            error = null;
+          }
+          else {
+            error = 'Preauth expired';
+          }
+        }
+        else {
+          error = 'Incorrect preauth';
+        }
+      }
+      else {
+        error = 'Invalid preauth';
+      }
+    }
+  
+    return error;
+}
