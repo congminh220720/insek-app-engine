@@ -20,8 +20,9 @@ const groupRef = db.collection(COLLECTION_PREFIX+'Group')
 const userGroupRef = db.collection(COLLECTION_PREFIX+'userGroup')
 
 module.exports = {
+    db,
     userRef,
     tasksRef,
     groupRef,
-    userGroupRef
+    userGroupRef,
 }
