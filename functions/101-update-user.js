@@ -1,5 +1,4 @@
 const moment = require('moment')
-const md5 = require('md5')
 const fs = require('fs')
 const jwt = require('jsonwebtoken')
 

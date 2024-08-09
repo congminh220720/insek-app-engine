@@ -18,6 +18,7 @@ const userRef = db.collection(COLLECTION_PREFIX+'Users')
 const tasksRef = db.collection(COLLECTION_PREFIX+'Tasks')
 const groupRef = db.collection(COLLECTION_PREFIX+'Group')
 const userGroupRef = db.collection(COLLECTION_PREFIX+'userGroup')
+const sprintRef = db.collection(COLLECTION_PREFIX+'Sprint')
 
 module.exports = {
     db,
@@ -25,4 +26,5 @@ module.exports = {
     tasksRef,
     groupRef,
     userGroupRef,
+    sprintRef
 }

@@ -46,7 +46,7 @@ module.exports.password = function (input) {
 
 module.exports.url = function (input, nullable) {
   if (!input) return nullable;
-  return typeof input == 'string' && input.length <= 1024 && (input.includes('https://') || input.includes('http://'));
+  return typeof input == 'string' && input.length <= 1024 && (input.includes('https://'));
 }
 
 module.exports.array = function (input, minLen, maxLen) {
@@ -62,4 +62,9 @@ module.exports.int = function (input, min, max, nullable) {
 module.exports.float = function (input, min, max, nullable) {
   if (input == null || input == undefined) return nullable;
   return typeof input == 'number' && input >= min && input <= max;
+}
+
+module.exports.timestamp = function (input, nullable) {
+  if (input == null || input == undefined) return nullable
+  return typeof input === 'number' && input.length == 10
 }

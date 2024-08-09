@@ -1,7 +1,26 @@
 
 const allowedOrigins = ['http://localhost:3000']
 
+const FLAG_SERIOUS = 1
+const FLAG_NECESSARY = 2
+const FLAG_OPTIONAL = 3
+const FLAG_NONE = 0
+
+const TASK_PENDING_STATUS = 0
+const TASK_TODO_STATUS = 1
+const TASK_PROCESS_STATUS = 2
+const TASK_DONE_STATUS = 3
+const TASK_NOT_COMPLETE_STATUS = -1
 
 module.exports = {
-    allowedOrigins
+    allowedOrigins,
+    FLAG_SERIOUS,
+    FLAG_NECESSARY,
+    FLAG_OPTIONAL,
+    FLAG_NONE,
+    TASK_PENDING_STATUS,
+    TASK_TODO_STATUS,
+    TASK_PROCESS_STATUS,
+    TASK_DONE_STATUS,
+    TASK_NOT_COMPLETE_STATUS
 }

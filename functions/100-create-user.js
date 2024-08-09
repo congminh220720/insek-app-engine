@@ -159,6 +159,9 @@ exports.createUser = async (req, res) => {
             resetPasswordRequestTime: 0,
             linkedGGAccount: linkedGGAccount || null,
             ipSet: [ip],
+            taskCreated: 0,
+            taskComplete: 0,
+            taskNotComplete:0,
           };
       
         try {
