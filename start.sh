@@ -11,4 +11,5 @@ JWT_PRIVATE_KEY_PATH=./jwt-cret/jwt.private.key \
 JWT_PUBLIC_KEY_PATH=./jwt-cret/jwt.public.key \
 LOCKED_TIME_COEFFICIENT=5 \
 ALLOW_LOGIN_RETRIES=4 \
+STORAGE_BUCKET=gs://insek-403fb.appspot.com \
 node server.js

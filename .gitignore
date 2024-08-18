@@ -107,7 +107,8 @@ package-lock.json
 
 jwt-cert/jwt-prod.crt
 jwt-cert/jwt-prod.key
-service-accounts/insek-service-key.json
+service-accounts/insek-service.json
+service-accounts/insek-app-engine.json
 
 pytest/__pycache__
 

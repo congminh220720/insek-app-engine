@@ -32,6 +32,7 @@ for ( endpoint in endpointMap ) {
     app.post(`/${endpoint}`,methods[method])
     app.put(`/${endpoint}`,methods[method])
     app.patch(`/${endpoint}`,methods[method])
+    app.delete(`/${endpoint}`,methods[method])
 }
 
 module.exports = app

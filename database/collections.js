@@ -17,14 +17,17 @@ const COLLECTION_PREFIX = process.env.COLLECTION_PREFIX
 const userRef = db.collection(COLLECTION_PREFIX+'Users')
 const tasksRef = db.collection(COLLECTION_PREFIX+'Tasks')
 const groupRef = db.collection(COLLECTION_PREFIX+'Group')
-const userGroupRef = db.collection(COLLECTION_PREFIX+'userGroup')
+const userGroupRef = db.collection(COLLECTION_PREFIX+'UserGroup')
+const notification = db.collection(COLLECTION_PREFIX+'Notification')
 const sprintRef = db.collection(COLLECTION_PREFIX+'Sprint')
 
 module.exports = {
+    admin,
     db,
     userRef,
     tasksRef,
     groupRef,
     userGroupRef,
-    sprintRef
+    sprintRef,
+    notification
 }

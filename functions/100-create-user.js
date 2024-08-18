@@ -4,6 +4,10 @@ const fs = require('fs')
 const { v4: uuidv4 } = require('uuid');
 const jwt = require('jsonwebtoken')
 
+const {
+  ACTIVE
+} = require("@utils/constant");
+
 const validation = require('@utils/validation')
 const { userRef } = require('@database/collections')
 
@@ -161,7 +165,7 @@ exports.createUser = async (req, res) => {
             ipSet: [ip],
             taskCreated: 0,
             taskComplete: 0,
-            taskNotComplete:0,
+            active: ACTIVE
           };
       
         try {

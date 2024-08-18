@@ -3,7 +3,24 @@ const endpointMap = {
     '101-update-user': 'updateUser',
     '102-login': 'login',
     '103-get-user-info': 'getUserInfo',
-    '110-create-task': 'createTask'
+    '110-create-task': 'createTask',
+    '111-update-status-tasks': 'updateStatusTasks',
+    '112-update-task': 'UpdateTask',
+    '113-list-individual-task-by-status': 'listIndividualTaskByStatus',
+    '114-delete-tasks':'deleteTasks',
+    '115-list-task-by-sprint':'listTaskBySprint',
+    '116-upload-photo':'uploadPhoto',
+    '117-list-task-by-group-status':'listTaskByGroupStatus',
+    '118-create-group':'createGroup',
+    '119-update-group':'updateGroup',
+    '120-delete-group':'deleteGroup',
+    '121-list-my-group':'listMyGroup',
+    '122-get-group-detail':'getGroupDetail',
+    '123-join-group':'joinGroup',
+    '124-approve-request':'approveRequest',
+    '126-ban-user':'banUser',
+    '127-list-member-by-group':'listMemberByGroup',
+    '128-update-user-role':'UpdateRoleUser',
 }
 
 module.exports = endpointMap

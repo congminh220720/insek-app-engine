@@ -151,30 +151,6 @@ exports.createTask = async (req, res) => {
       return;
     }
 
-    let publicAt = payload.publicAt;
-    if (!validation.timestamp(publicAt, true)) {
-      res.writeHead(400, {});
-      res.end(
-        JSON.stringify({
-          msgCode: 11008,
-          msgReps: "Invalid Public Date",
-        })
-      );
-      return;
-    }
-
-    let point = payload.point;
-    if (!validation.float(point, 0, 2**32, true)) {
-      res.writeHead(400, {});
-      res.end(
-        JSON.stringify({
-          msgCode: 11009,
-          msgReps: "Invalid point",
-        })
-      );
-      return;
-    }
-
     let photoUrls = payload.photoUrls;
     if (!validation.array(photoUrls, 0, 20)) {
       res.writeHead(400, {});
@@ -300,7 +276,7 @@ exports.createTask = async (req, res) => {
           res.end(
             JSON.stringify({
               msgCode: 11018,
-              msgReps: "group not found",
+              msgReps: "Group Not Found",
             })
           );
           return;
@@ -308,6 +284,41 @@ exports.createTask = async (req, res) => {
 
         group = groupDoc.data()
         group.id = groupDoc.id
+
+        if (!group.active) {
+          es.writeHead(400, {});
+          res.end(
+            JSON.stringify({
+              msgCode: 11018,
+              msgReps: "Group Inactive",
+            })
+          );
+          return;
+        }
+
+        var point = payload.point;
+        if (!validation.float(point, 0, 2**32, true)) {
+          res.writeHead(400, {});
+          res.end(
+            JSON.stringify({
+              msgCode: 11009,
+              msgReps: "Invalid Point",
+            })
+          );
+          return;
+        }
+      }
+
+    let publicAt = payload.publicAt;
+      if (!validation.timestamp(publicAt, true)) {
+        res.writeHead(400, {});
+        res.end(
+          JSON.stringify({
+            msgCode: 11008,
+            msgReps: "Invalid Public Date",
+          })
+        );
+        return;
     }
 
 
@@ -319,6 +330,7 @@ exports.createTask = async (req, res) => {
       photoUrls,
       status,
       point: groupId ? point : null,
+      publicAt: publicAt || null,
       flag,
       externalLink: externalLink || null,
       sprintId: sprintId || null,
@@ -338,6 +350,7 @@ exports.createTask = async (req, res) => {
       assignUserEmail: assignUserId ? userAssign.email : null,
       assignUserPhone: assignUserId ? userAssign.phone : null,
       photoUrls,
+      completeAt: 0
     };
 
     try {

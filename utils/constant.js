@@ -10,7 +10,18 @@ const TASK_PENDING_STATUS = 0
 const TASK_TODO_STATUS = 1
 const TASK_PROCESS_STATUS = 2
 const TASK_DONE_STATUS = 3
+const TASK_COMPLETE_STATUS = 4
 const TASK_NOT_COMPLETE_STATUS = -1
+
+const GROUP_PUBLIC = 1
+const GROUP_PRIVATE = 0
+
+const ADMIN = 3
+const ASSISTANT = 2
+const MEMBER = 1
+
+const ACTIVE = 1
+const INACTIVE = 0
 
 module.exports = {
     allowedOrigins,
@@ -22,5 +33,13 @@ module.exports = {
     TASK_TODO_STATUS,
     TASK_PROCESS_STATUS,
     TASK_DONE_STATUS,
-    TASK_NOT_COMPLETE_STATUS
+    TASK_NOT_COMPLETE_STATUS,
+    TASK_COMPLETE_STATUS,
+    GROUP_PUBLIC,
+    GROUP_PRIVATE,
+    ADMIN,
+    ASSISTANT,
+    MEMBER,
+    ACTIVE,
+    INACTIVE
 }
