@@ -1,4 +1,5 @@
 const fs = require("fs");
+const moment = require('moment')
 const jwt = require("jsonwebtoken");
 const {userRef,groupRef,userGroupRef} = require("@database/collections");
 const validation = require("@utils/validation")
@@ -32,7 +33,7 @@ exports.approveRequest = async (req,res) => {
             return
         }
 
-        let groupId = req.body.groupId
+        let groupId = req.query.groupId
         if (!validation.id(groupId, false)) {
              res.writeHead(401, {});
              res.end(
@@ -58,7 +59,7 @@ exports.approveRequest = async (req,res) => {
         }
 
         let group = groupDoc.data()
-        group = groupDoc.id
+        group.id = groupDoc.id
 
         if (group.active !== ACTIVE) {
             res.writeHead(401, {});
@@ -97,7 +98,7 @@ exports.approveRequest = async (req,res) => {
          }
  
          let userGroup = userGroupDoc.data()
-         userGroup = userGroupDoc.id
+         userGroup.id = userGroupDoc.id
  
          if (userGroup.approve == true) {
              res.writeHead(401, {});
@@ -153,6 +154,7 @@ exports.approveRequest = async (req,res) => {
                 lastModifiedAt: moment().unix()
             })
         } catch (e) {
+            console.log(e)
             res.writeHead(401, {});
             res.end(
             JSON.stringify({

@@ -32,7 +32,7 @@ exports.removeRequest = async (req,res) => {
             return
         }
 
-        let groupId = req.body.groupId
+        let groupId = req.query.groupId
         if (!validation.id(groupId, false)) {
              res.writeHead(401, {});
              res.end(
@@ -58,7 +58,7 @@ exports.removeRequest = async (req,res) => {
         }
 
         let group = groupDoc.data()
-        group = groupDoc.id
+        group.id = groupDoc.id
 
         if (group.active !== ACTIVE) {
             res.writeHead(401, {});
@@ -97,7 +97,7 @@ exports.removeRequest = async (req,res) => {
          }
  
          let userGroup = userGroupDoc.data()
-         userGroup = userGroupDoc.id
+         userGroup.id = userGroupDoc.id
  
         if (userGroup.approve == true) {
              res.writeHead(401, {});
@@ -137,7 +137,7 @@ exports.removeRequest = async (req,res) => {
         res.writeHead(200, {})
         res.end(JSON.stringify({
             msgCode: 12500,
-            msgReps:'Send Request Join Group Success'
+            msgReps:'Deleted'
         }))
         responsed = true
         return

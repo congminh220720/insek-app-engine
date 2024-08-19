@@ -1,11 +1,12 @@
 const fs = require("fs");
+const moment = require('moment')
 const jwt = require("jsonwebtoken");
 const {userRef,groupRef,userGroupRef} = require("@database/collections");
 const validation = require("@utils/validation")
 
-const { ACTIVE, ADMIN} = require("@utils/constant");
+const { ACTIVE, ADMIN } = require("@utils/constant");
 
-exports.UpdateRoleUser = async (req,res) => {
+exports.banMember = async (req,res) => {
     let responsed = false
     try {
         if (req.method !== 'PATCH') {
@@ -26,18 +27,18 @@ exports.UpdateRoleUser = async (req,res) => {
         } catch (e) {
             res.writeHead(401,{})
             res.end(JSON.stringify({
-                msgCode: 12801,
+                msgCode: 12601,
                 msgReps: 'Unauthorized'
             }))
             return
         }
 
-        let groupId = req.body.groupId
+        let groupId = req.query.groupId
         if (!validation.id(groupId, false)) {
              res.writeHead(401, {});
              res.end(
                JSON.stringify({
-                 msgCode: 12802,
+                 msgCode: 12602,
                  msgReps: "Invalid Group Id",
                })
              );
@@ -50,7 +51,7 @@ exports.UpdateRoleUser = async (req,res) => {
             res.writeHead(401, {});
             res.end(
             JSON.stringify({
-                msgCode: 12803,
+                msgCode: 12603,
                 msgReps: "Group Not Found",
             })
             );
@@ -58,13 +59,13 @@ exports.UpdateRoleUser = async (req,res) => {
         }
 
         let group = groupDoc.data()
-        group = groupDoc.id
+        group.id = groupDoc.id
 
         if (group.active !== ACTIVE) {
             res.writeHead(401, {});
             res.end(
             JSON.stringify({
-                msgCode: 12804,
+                msgCode: 12604,
                 msgReps: "Group Is Inactive",
             })
             );
@@ -76,7 +77,7 @@ exports.UpdateRoleUser = async (req,res) => {
              res.writeHead(401, {});
              res.end(
                JSON.stringify({
-                 msgCode: 12805,
+                 msgCode: 12605,
                  msgReps: "Invalid Group Id",
                })
              );
@@ -89,33 +90,23 @@ exports.UpdateRoleUser = async (req,res) => {
              res.writeHead(401, {});
              res.end(
                JSON.stringify({
-                 msgCode: 12806,
-                 msgReps: "Can\'t Find This User In Group !",
+                 msgCode: 12606,
+                 msgReps: "This User Out Side Group",
                })
              );
              return;
          }
  
          let userGroup = userGroupDoc.data()
-         userGroup = userGroupDoc.id
+         userGroup.id = userGroupDoc.id
  
-         if (userGroup.approve == false) {
-             res.writeHead(401, {});
-             res.end(
-               JSON.stringify({
-                 msgCode: 12807,
-                 msgReps: "This User Hasn\'t Approve Yet",
-               })
-             );
-             return;
-        }
 
         let userDoc = await userRef.doc(userGroup.uid).get();
         if (!userDoc.exists) {
             res.writeHead(401, {});
             res.end(
               JSON.stringify({
-                msgCode: 12808,
+                msgCode: 12607,
                 msgReps: "User Not Found",
               })
             );
@@ -125,49 +116,30 @@ exports.UpdateRoleUser = async (req,res) => {
         let user = userDoc.data();       
         user.id = userDoc.id;
 
-        if (user.active !== ACTIVE) {
-            res.writeHead(401, {});
-            res.end(
-              JSON.stringify({
-                msgCode: 12809,
-                msgReps: "This Account Is Inactive",
-              })
-            );
-            return;
-        }
 
         let userGroupSnap = await userGroupRef.where('uid', '==', decoded.uid).where('groupId','==', groupId).where('role', '==', ADMIN).get()
 
         if (userGroupSnap.empty) {
             res.writeHead(401,{})
             res.end(JSON.stringify({
-                msgCode: 12810,
+                msgCode: 12608,
                 msgReps: 'You Are\'t Admin of This Group !'
             }))
             return
         }
 
-        let role = req.body.role
-        if (![ADMIN,ASSISTANT,MEMBER].includes(role)) {
-            res.end(JSON.stringify({
-                msgCode: 12811,
-                msgReps: 'This Role Not Approve Yet'
-            }))
-            return
-        }
-
-        if (![])
         try {
             await userGroupRef.doc(userGroup.id).update({
-                role: role,
+                baned: true,
                 lastModifiedAt: moment().unix()
             })
         } catch (e) {
+            console.log(e)
             res.writeHead(401, {});
             res.end(
             JSON.stringify({
-                msgCode: 12812,
-                msgReps: "Can\'t Approve This Request",
+                msgCode: 12609,
+                msgReps: "Can\'t Ban This Member",
             })
             );
             return;
@@ -175,8 +147,8 @@ exports.UpdateRoleUser = async (req,res) => {
 
         res.writeHead(200, {})
         res.end(JSON.stringify({
-            msgCode: 12800,
-            msgReps:'Send Request Join Group Success'
+            msgCode: 12600,
+            msgReps:'success'
         }))
         responsed = true
         return
@@ -185,7 +157,7 @@ exports.UpdateRoleUser = async (req,res) => {
         if (!responsed) {
             res.writeHead(400, {})
             res.end(JSON.stringify({
-                msgCode: 12899,
+                msgCode: 12699,
                 msgReps: 'Unknown'
             }))
             return

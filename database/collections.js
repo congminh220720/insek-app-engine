@@ -1,10 +1,10 @@
-
+/* eslint-disable no-unused-vars */
 const admin = require('firebase-admin')
 const serviceAccount =  require(process.env.FIRESTORE_CRED_PATH)
 // const serviceAccount =  require('../service-accounts/insek-service.json')
 try { 
     admin.initializeApp({credential: admin.credential.cert(serviceAccount)})
-} catch (e) { 
+} catch (error) { 
     // additional telegram message later ! 
     console.log('connect fail') 
 }

@@ -1,4 +1,5 @@
 const fs = require("fs");
+const moment = require('moment')
 const jwt = require("jsonwebtoken");
 const {userRef,groupRef,userGroupRef} = require("@database/collections");
 const validation = require("@utils/validation")
@@ -59,7 +60,7 @@ exports.joinGroup = async (req,res) => {
             return;
         }
         
-       let groupId = req.query.groupId
+       let groupId = req.body.groupId
        if (!validation.id(groupId, false)) {
             res.writeHead(401, {});
             res.end(
@@ -85,7 +86,7 @@ exports.joinGroup = async (req,res) => {
         }
 
         let group = groupDoc.data()
-        group = groupDoc.id
+        group.id = groupDoc.id
 
         if (group.active !== ACTIVE) {
             res.writeHead(401, {});

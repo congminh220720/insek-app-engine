@@ -18,9 +18,11 @@ const endpointMap = {
     '122-get-group-detail':'getGroupDetail',
     '123-join-group':'joinGroup',
     '124-approve-request':'approveRequest',
-    '126-ban-user':'banUser',
+    '125-remove-request':'removeRequest',
+    '126-ban-member':'banMember',
     '127-list-member-by-group':'listMemberByGroup',
-    '128-update-user-role':'UpdateRoleUser',
+    '128-update-member-role':'UpdateMemberRole',
+    '129-leave-group': 'leaveGroup'
 }
 
 module.exports = endpointMap
