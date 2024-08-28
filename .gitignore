@@ -40,6 +40,7 @@ build/Release
 # Dependency directories
 node_modules/
 jspm_packages/
+service-accounts/
 
 # TypeScript v1 declaration files
 typings/
@@ -107,8 +108,8 @@ package-lock.json
 
 jwt-cert/jwt-prod.crt
 jwt-cert/jwt-prod.key
-service-accounts/insek-service.json
-service-accounts/insek-app-engine.json
+# service-accounts/insek-service.json
+# service-accounts/insek-app-engine.json
 
 pytest/__pycache__
 
