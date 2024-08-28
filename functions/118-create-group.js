@@ -176,13 +176,9 @@ exports.createGroup = async (req, res) => {
       name,
       public,
       lastModifiedAt: 0,
-      createdUserId: user.id,
-      createdUserEmail: user.email,
-      createdUserName: user.name,
-      createdUserPhone: user.phone,
       createdAt: moment().unix(),
       totalMember: 1,
-      totalTak: 0,
+      totalSprint: 0,
       currentSprint: null,
       coordinates: coordinates,
       active: ACTIVE,
@@ -202,7 +198,7 @@ exports.createGroup = async (req, res) => {
       totalTaskAssigned: 0,
       totalTaskAssignDone: 0,
       totalTaskAssignProcess: 0,
-    };
+    }
 
     try {
       const batch = db.batch();

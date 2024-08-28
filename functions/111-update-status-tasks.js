@@ -3,7 +3,7 @@ const fs = require("fs");
 const jwt = require("jsonwebtoken");
 
 const validation = require("@utils/validation");
-const {userRef,tasksRef, groupRef, userGroupRef, admin, db} = require("@database/collections");
+const {userRef,tasksRef, userGroupRef, admin, db} = require("@database/collections");
 const {
   TASK_PENDING_STATUS,
   TASK_TODO_STATUS,

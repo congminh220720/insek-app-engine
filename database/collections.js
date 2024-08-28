@@ -1,13 +1,7 @@
-/* eslint-disable no-unused-vars */
 const admin = require('firebase-admin')
-const serviceAccount =  require(process.env.FIRESTORE_CRED_PATH)
-// const serviceAccount =  require('../service-accounts/insek-service.json')
-try { 
-    admin.initializeApp({credential: admin.credential.cert(serviceAccount)})
-} catch (error) { 
-    // additional telegram message later ! 
-    console.log('connect fail') 
-}
+const serviceAccount = require(process.env.FIRESTORE_CRED_PATH)
+try { admin.initializeApp({credential: admin.credential.cert(serviceAccount)})
+} catch (error) { console.log('connect fail') }
 
 const db = admin.firestore()
 
@@ -20,6 +14,8 @@ const groupRef = db.collection(COLLECTION_PREFIX+'Group')
 const userGroupRef = db.collection(COLLECTION_PREFIX+'UserGroup')
 const notification = db.collection(COLLECTION_PREFIX+'Notification')
 const sprintRef = db.collection(COLLECTION_PREFIX+'Sprint')
+const notificationQueueRef = db.collection(COLLECTION_PREFIX+'NotificationQueue')
+const groupNotificationRef = db.collection(COLLECTION_PREFIX+'GroupNotification')
 
 module.exports = {
     admin,
@@ -29,5 +25,7 @@ module.exports = {
     groupRef,
     userGroupRef,
     sprintRef,
-    notification
+    notification,
+    notificationQueueRef,
+    groupNotificationRef
 }

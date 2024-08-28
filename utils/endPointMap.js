@@ -22,7 +22,12 @@ const endpointMap = {
     '126-ban-member':'banMember',
     '127-list-member-by-group':'listMemberByGroup',
     '128-update-member-role':'UpdateMemberRole',
-    '129-leave-group': 'leaveGroup'
+    '129-leave-group': 'leaveGroup',
+    '130-add-member-group': 'addMemberGroup',
+    '140-create-sprint-group': 'createSprintGroup',
+    '141-update-sprint-group': 'updateSprintGroup',
+    '142-get-sprint-by-group': 'getSprintByGroup',
+    '143-get-sprint-detail': 'getSprintDetail',
 }
 
 module.exports = endpointMap

@@ -14,9 +14,12 @@ const {
   TASK_PROCESS_STATUS,
   TASK_DONE_STATUS,
   TASK_NOT_COMPLETE_STATUS,
-} = require("@utils/constant");
+  CLOSED
+} = require("@utils/constant")
 
-async function createTaskBundle(taskDoc, userDoc) {
+const now = moment().unix()
+
+async function createTaskBundle(taskDoc, userDoc, sprint = null) {
   return new Promise(async (succeed, fail) => {
     try {
       const batch = db.batch();
@@ -45,6 +48,16 @@ async function createTaskBundle(taskDoc, userDoc) {
         succeed(taskId);
       }
 
+      if (taskDoc.groupId) {
+        try {
+          await sprintRef.doc(taskDoc.sprintId).update({
+            totalTask: sprint.totalTask + 1
+          })
+        } catch (e) {
+          console.log(e)
+          succeed(taskId);
+        }
+      }
       succeed(taskId);
     } catch (e) {
       fail({
@@ -185,7 +198,7 @@ exports.createTask = async (req, res) => {
       res.end(
         JSON.stringify({
           msgCode: 11012,
-          msgReps: "Invalid assign user id",
+          msgReps: "Invalid Assign User Id",
         })
       );
       return;
@@ -197,22 +210,21 @@ exports.createTask = async (req, res) => {
       res.end(
         JSON.stringify({
           msgCode: 11013,
-          msgReps: "Invalid assign user id",
+          msgReps: "Invalid Group Id",
         })
       );
-      return;
-    }
 
-    let sprintId = payload.sprintId;
-    if (!validation.id(sprintId, true)) {
-      res.writeHead(400, {});
-      res.end(
-        JSON.stringify({
-          msgCode: 11014,
-          msgReps: "Invalid assign user id",
-        })
-      );
-      return;
+      var sprintId = payload.sprintId;
+      if (!validation.id(sprintId, false)) {
+        res.writeHead(400, {});
+        res.end(
+          JSON.stringify({
+            msgCode: 11014,
+            msgReps: "Invalid Sprint Id",
+          })
+        );
+        return;
+      }
     }
 
     let userDoc = await userRef.doc(decoded.uid).get();
@@ -222,7 +234,7 @@ exports.createTask = async (req, res) => {
       res.end(
         JSON.stringify({
           msgCode: 11015,
-          msgReps: "user not found",
+          msgReps: "User Not Found",
         })
       );
       return;
@@ -232,7 +244,7 @@ exports.createTask = async (req, res) => {
     user.id = userDoc.id;
 
     let userAssign;
-
+    let sprint 
     if (assignUserId) {
       let userAssignDoc = await userRef.doc(assignUserId).get();
 
@@ -253,21 +265,34 @@ exports.createTask = async (req, res) => {
 
     if (sprintId) {
         let sprintDoc = await sprintRef.doc(sprintId).get();
-  
         if (!sprintDoc.exists) {
           res.writeHead(400, {});
           res.end(
             JSON.stringify({
               msgCode: 11017,
-              msgReps: "sprint not found",
+              msgReps: "Sprint Not Found",
             })
           );
-          return;
+          return
         }
+
+        sprint = sprintDoc.data()
+        sprint.id = sprintDoc.id
+
+        if (sprint.closingAt < now || sprint.status === CLOSED) {
+          res.writeHead(400, {});
+          res.end(
+            JSON.stringify({
+              msgCode: 11018,
+              msgReps: "Sprint Is Closed",
+            })
+          );
+          return
+        }
+
     }
 
     let group
-
     if (groupId) {
         let groupDoc = await groupRef.doc(groupId).get();
   
@@ -275,7 +300,7 @@ exports.createTask = async (req, res) => {
           res.writeHead(400, {});
           res.end(
             JSON.stringify({
-              msgCode: 11018,
+              msgCode: 11019,
               msgReps: "Group Not Found",
             })
           );
@@ -321,9 +346,6 @@ exports.createTask = async (req, res) => {
         return;
     }
 
-
-
-
     let taskDoc = {
       title,
       description,
@@ -354,7 +376,7 @@ exports.createTask = async (req, res) => {
     };
 
     try {
-      let taskId = await createTaskBundle(taskDoc, user);
+      let taskId = await createTaskBundle(taskDoc, user,sprint);
       taskDoc.id = taskId;
     } catch (e) {
       console.log(e.detail);

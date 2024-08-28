@@ -23,6 +23,9 @@ const MEMBER = 1
 const ACTIVE = 1
 const INACTIVE = 0
 
+const OPENING = 1
+const CLOSED = 0
+
 module.exports = {
     allowedOrigins,
     FLAG_SERIOUS,
@@ -41,5 +44,7 @@ module.exports = {
     ASSISTANT,
     MEMBER,
     ACTIVE,
-    INACTIVE
+    INACTIVE,
+    OPENING,
+    CLOSED
 }

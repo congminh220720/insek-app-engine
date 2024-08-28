@@ -3,7 +3,7 @@ require('module-alias/register');
 const express = require('express')
 const helmet = require('helmet')
 const morgan = require('morgan')
-const crypto = require('crypto');
+const crypto = require('crypto')
 const compression = require('compression')
 const endpointMap = require('@utils/endPointMap')
 
@@ -23,7 +23,7 @@ app.use(applyRateLimiting)
 app.use(checkIp)
 
 // declare endpoint
-for ( endpoint in endpointMap ) {
+for (let endpoint in endpointMap ) {
     let method = endpointMap[endpoint]
     let methods = require(`./functions/${endpoint}.js`)
     endpoint = endpoint.substring(4)

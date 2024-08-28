@@ -1,7 +1,7 @@
 const moment = require("moment");
 const fs = require("fs");
 const jwt = require("jsonwebtoken");
-const {userRef,groupRef, userGroupRef, admin} = require("@database/collections");
+const {userRef,groupRef,userGroupRef, admin} = require("@database/collections");
 
 exports.listMyGroup = async (req,res) => {
     let responsed = false

@@ -3,10 +3,7 @@ const md5 = require('md5')
 const fs = require('fs')
 const { v4: uuidv4 } = require('uuid');
 const jwt = require('jsonwebtoken')
-
-const {
-  ACTIVE
-} = require("@utils/constant");
+const { ACTIVE } = require("@utils/constant");
 
 const validation = require('@utils/validation')
 const { userRef } = require('@database/collections')

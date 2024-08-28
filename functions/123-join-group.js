@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const {userRef,groupRef,userGroupRef} = require("@database/collections");
 const validation = require("@utils/validation")
 
-const { ACTIVE } = require("@utils/constant");
+const { ACTIVE, MEMBER } = require("@utils/constant");
 
 exports.joinGroup = async (req,res) => {
     let responsed = false
@@ -103,7 +103,7 @@ exports.joinGroup = async (req,res) => {
             groupId: groupId,
             uid: user.id,
             photoUrl: user.photoUrl,
-            role: 1,
+            role: MEMBER,
             uName: user.name,
             baned: false,
             approve: false,
