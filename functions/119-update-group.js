@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const geoip = require('geoip-lite');
 
 const validation = require("@utils/validation");
-const {userRef,groupRef, userGroupRef} = require("@database/collections");
+const {userRef,groupRef, userGroupRef, groupNotificationRef} = require("@database/collections");
 const {
    ADMIN,
    ASSISTANT,
@@ -220,6 +220,27 @@ exports.updateGroup = async (req,res) => {
                 msgReps: 'Can\'t Update Group'
             }))
             return
+        }   
+
+       
+
+        if (groupUpdateDoc.name) {
+            let groupNotificationDoc = {
+                createdAt: moment().unix(),
+                message: `group has been change renamed to ${name}`,
+                new: true,
+                groupId: group.id,
+                groupName: groupUpdateDoc.name || group.name,
+                senderId: 'Insek System',
+                senderName: 'Insek System',
+                title: 'change group name success'
+            }
+
+            try {
+                await groupNotificationRef.doc().create(groupNotificationDoc)
+              } catch (e) {
+                console.log({ msgCode: 11914, msgResp: 'Can\'t Send Notification', detail: e })
+              }
         }
 
         res.writeHead(200, {})

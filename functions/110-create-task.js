@@ -27,6 +27,7 @@ async function createTaskBundle(taskDoc, userDoc, sprint = null) {
 
       try {
         taskId = tasksRef.doc().id;
+        console.log(taskDoc)
         await batch.set(tasksRef.doc(taskId), taskDoc);
       } catch (e) {
         fail({
@@ -321,7 +322,7 @@ exports.createTask = async (req, res) => {
           return;
         }
 
-        var point = payload.point;
+        var point = payload.point || null
         if (!validation.float(point, 0, 2**32, true)) {
           res.writeHead(400, {});
           res.end(

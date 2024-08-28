@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const geoip = require("geoip-lite");
 
 const validation = require("@utils/validation");
-const { userRef, db, groupRef,userGroupRef } = require("@database/collections");
+const { userRef, db, groupRef,userGroupRef, notificationRef } = require("@database/collections");
 const {
   ADMIN,
   ASSISTANT,
@@ -200,10 +200,22 @@ exports.createGroup = async (req, res) => {
       totalTaskAssignProcess: 0,
     }
 
+    let notificationDoc = {
+      createdAt: moment().unix(),
+      message: `${groupDoc.name} group just created`,
+      new: true,
+      receiverId: user.id,
+      receiverName: user.name,
+      senderId: 'Insek System',
+      senderName: 'Insek System',
+      title: 'Welcome new members'
+    }
+
     try {
       const batch = db.batch();
 
       await batch.set(groupRef.doc(groupId), groupDoc);
+      await batch.set(notificationRef.doc(), notificationDoc);
       await batch.set(userGroupRef.doc(), userGroupDoc);
       
       await batch.commit()

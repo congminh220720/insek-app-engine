@@ -1,7 +1,7 @@
 const fs = require("fs");
 const moment = require('moment')
 const jwt = require("jsonwebtoken");
-const {userRef,groupRef,userGroupRef,db} = require("@database/collections");
+const {userRef,groupRef,userGroupRef,db, groupNotificationRef} = require("@database/collections");
 const validation = require("@utils/validation")
 
 const { ACTIVE, ADMIN } = require("@utils/constant");
@@ -234,6 +234,23 @@ exports.leaveGroup = async (req,res) => {
             })
             );
             return;
+        }
+
+        let groupNotificationDoc = {
+            createdAt: moment().unix(),
+            message: `${user.name} just leaved the group`,
+            new: true,
+            groupId: group.id,
+            groupName: groupUpdateDoc.name || group.name,
+            senderId: 'Insek System',
+            senderName: 'Insek System',
+            title: 'leave the group'
+        }
+
+        try {
+            await groupNotificationRef.doc().create(groupNotificationDoc)
+        } catch (e) {
+            console.log({ msgCode: 12915, msgResp: 'Can\'t Send Notification', detail: e })
         }
 
         res.writeHead(200, {})

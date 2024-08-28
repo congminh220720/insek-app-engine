@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken')
 const { ACTIVE } = require("@utils/constant");
 
 const validation = require('@utils/validation')
-const { userRef } = require('@database/collections')
+const { userRef, notificationRef } = require('@database/collections')
 
 function get(host, port, path, token) {
     return new Promise(async function(succeed, fail) {
@@ -163,15 +163,38 @@ exports.createUser = async (req, res) => {
             taskCreated: 0,
             taskComplete: 0,
             active: ACTIVE
-          };
+        }
+
+       
       
         try {
             var added = await userRef.add(doc);
             doc.id = added.id;
         }catch (e) {
+            console.log(e)
             res.writeHead(400, {});
             res.end(JSON.stringify({ msgCode: 10009, msgResp: 'Can\'t add user' }));
             return
+        }
+
+        let notificationDoc = {
+          createdAt: moment().unix(),
+          message: 'Congratulations on joining insek',
+          new: true,
+          receiverId: doc.id,
+          receiverName: doc.name,
+          senderId: 'Insek System',
+          senderName: 'Insek System',
+          title: 'Welcome new members'
+        }
+
+        try {
+          await notificationRef.doc().create(notificationDoc)
+        } catch (e) {
+          console.log(e)
+          res.writeHead(400, {});
+          res.end(JSON.stringify({ msgCode: 10010, msgResp: 'Can\'t Send Notification' }));
+          return
         }
 
         let privKey = fs.readFileSync(process.env.JWT_PRIVATE_KEY_PATH, 'utf8');

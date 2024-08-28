@@ -1,7 +1,7 @@
 const fs = require("fs");
 const moment = require('moment')
 const jwt = require("jsonwebtoken");
-const {groupRef,userGroupRef,userRef,sprintRef, db} = require("@database/collections");
+const {groupRef,userGroupRef,userRef,sprintRef, db, groupNotificationRef} = require("@database/collections");
 const validation = require("@utils/validation")
 
 const { ADMIN, ASSISTANT, OPENING } = require('@utils/constant');
@@ -239,6 +239,23 @@ exports.createSprintGroup = async (req,res) => {
         }
 
         sprintDoc.id = sprintId
+
+        let groupNotificationDoc = {
+            createdAt: moment().unix(),
+            message: `${sprintDoc.name} just been created`,
+            new: true,
+            groupId: group.id,
+            groupName: group.name,
+            senderId: 'Insek System',
+            senderName: 'Insek System',
+            title: 'a sprint has just been created'
+        }
+  
+        try {
+            await groupNotificationRef.doc().create(groupNotificationDoc)
+        } catch (e) {
+            console.log({ msgCode: 14013, msgResp: 'Can\'t Send Notification', detail: e })
+        }
 
         res.writeHead(201,{})
         res.end(JSON.stringify({

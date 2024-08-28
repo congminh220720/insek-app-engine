@@ -1,7 +1,7 @@
 const fs = require("fs");
 const moment = require('moment')
 const jwt = require("jsonwebtoken");
-const {groupRef,userGroupRef,userRef,sprintRef, db} = require("@database/collections");
+const {groupRef,userGroupRef,userRef,sprintRef } = require("@database/collections");
 const validation = require("@utils/validation")
 
 const { ADMIN, ASSISTANT, OPENING, CLOSED } = require('@utils/constant');

@@ -1,7 +1,7 @@
 const fs = require("fs");
 const moment = require('moment')
 const jwt = require("jsonwebtoken");
-const {userRef,groupRef,userGroupRef} = require("@database/collections");
+const {userRef,groupRef,userGroupRef, groupNotificationRef} = require("@database/collections");
 const validation = require("@utils/validation")
 
 const { ACTIVE, ADMIN } = require("@utils/constant");
@@ -143,6 +143,23 @@ exports.banMember = async (req,res) => {
             })
             );
             return;
+        }
+
+        let groupNotificationDoc = {
+            createdAt: moment().unix(),
+            message: `${user.name} just baned on group`,
+            new: true,
+            groupId: group.id,
+            groupName: group.name,
+            senderId: 'Insek System',
+            senderName: 'Insek System',
+            title: 'ban member'
+        }
+  
+        try {
+            await groupNotificationRef.doc().create(groupNotificationDoc)
+        } catch (e) {
+            console.log({ msgCode: 12610, msgResp: 'Can\'t Send Notification', detail: e })
         }
 
         res.writeHead(200, {})
